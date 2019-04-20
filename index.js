@@ -1,29 +1,23 @@
-// Ez volt egy minimalista szerver Node.js-ben
-/*const http = require("http");
-
-http.createServer(function (req, res) {
-    res.write('Hello World!');
-    res.end();
-}).listen(5000);*/
-
-// innen jon az Express
-
-// mongodb://user:<PASSWORD>@prf-example01-shard-00-00-
-
 const express = require('express');
-var app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
+
+const path = require('path')
+const PORT = process.env.PORT || 5000
 const cors = require('cors');
 
-var corsOptions = {
-    origin: "http://localhost:4200",
-    credentials: true
-};
+
+var app = express();
+
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json())
+app.use(cookieParser());
+
 
 // docker run -d -p 27017:27017 -v $PWD/mongo:/etc/mongo --name mymongo mongo
 
@@ -68,11 +62,7 @@ passport.use('local',
         });
     }));
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.use(cookieParser());
 
-app.use(cors(corsOptions));
 
 app.use(expressSession({secret: '12354456462almajjimnhgiknb,'}));
 app.use(passport.initialize());
@@ -81,7 +71,7 @@ app.use(passport.session());
 app.use('/', require('./routes'));
 app.use('/proba', require('./routes'));
 
-app.listen(5000, function() {
+app.listen(PORT, function() {
     console.log('the server is running');
 });
 

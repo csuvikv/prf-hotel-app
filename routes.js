@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const userModel = mongoose.model('user');
 var router = express.Router();
 
+
+
 router.post('/register', function(req, res) {
     if(!req.body.username || !req.body.password) {
         return res.status(404).send("username or password missing");

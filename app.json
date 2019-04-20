@@ -1,0 +1,8 @@
+{
+    "name": "prf-hotel-app",
+    "description": "desc",
+    "repository": "https://github.com/csuvikv/prf-hotel-app",
+    "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
+    "keywords": ["node", "express", "heroku"],
+    "image": "heroku/nodejs"
+  }

@@ -12,11 +12,14 @@ Availalbe on Heroku: https://prf-hotel-app.herokuapp.com
   - https://prf-hotel-app.herokuapp.com/: returns a string, which value depends on authentication
   - https://prf-hotel-app.herokuapp.com/users: lists users
     - you should be logged in with admin privileges: ```{"username": "admin", "password": "admin"}```
+  - https://prf-hotel-app.herokuapp.com/hotels: lists hotels
 - POST:
   - https://prf-hotel-app.herokuapp.com/register: registers a new user
     - the request body should contain the password and username
   - https://prf-hotel-app.herokuapp.com/login: logs in a user
     - the request body should contain the password and username ```(eg.: {"username": "appUser", "password": "appUserPassword"})```
   - https://prf-hotel-app.herokuapp.com/logout: logs out the user
+  - https://prf-hotel-app.herokuapp.com/new-hotel: created a new hotel
+    - the request body should contain qname
   
     

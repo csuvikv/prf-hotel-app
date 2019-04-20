@@ -7,6 +7,8 @@ var router = express.Router();
 
 
 router.post('/register', function(req, res) {
+    console.log(req.body);
+
     if(!req.body.username || !req.body.password) {
         return res.status(404).send("username or password missing");
     } else {
@@ -21,7 +23,7 @@ router.post('/register', function(req, res) {
 
 router.get('/', function(req, res) {
     console.log("Query parameterek", req.query);
-    console.log(req.session.passport.user);
+
     if(req.isAuthenticated()) {
         return res.status(200).send("Hello World");
     } else {

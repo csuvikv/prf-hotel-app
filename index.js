@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const path = require('path')
 const cors = require('cors');
 require('./user.model');
+require('./hotel.model');
 
 
 const dbUrl = "mongodb://dbUser:dbUserPassword@cluster0-shard-00-00-6whz0.mongodb.net:27017,cluster0-shard-00-01-6whz0.mongodb.net:27017,cluster0-shard-00-02-6whz0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
@@ -34,31 +35,33 @@ mongoose.connection.on('error', function() {
 
 
 passport.serializeUser(function(user, done) {
-    if(!user) return done("serializalasi hiba", user);
+    if(!user) { return done("Serialization error", user); }
     return done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-    if(!user) return done("serializalasi hiba", user);
+    if(!user) { return done("Deserialization error", user); }
     return done(null, user);
 });
 
 passport.use('local', new localStrategy(function(username, password, done) {
-        userModel.findOne({username: username}, function(err, user) {
-            if(!user || err) return done("cannot get user", false);
-            user.comparePasswords(password, function(err, isMatch) {
-                if(err || !isMatch) return done("password incorrect", false);
-                return done(null, user);
-            });
+    userModel.findOne({username: username}, function(err, user) {
+        if(!user || err) { 
+            return done("cannot get user", false);
+        }
+        user.comparePasswords(password, function(err, isMatch) {
+            if(err || !isMatch) {
+                return done("password incorrect", false);
+            }
+            return done(null, user);
         });
-    }));
-
+    });
+}));
 
 
 app.use(expressSession({secret: 'secret'}));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use('/', require('./routes'));
 
 app.listen(PORT, function() {

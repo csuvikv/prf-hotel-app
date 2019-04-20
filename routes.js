@@ -37,6 +37,10 @@ router.get('/users', function(req, res) {
     }
 })
 
+router.get('/testConnection', function(req, res) {
+    return res.status(200).send({"connection": "ok"});
+})
+
 router.post('/logout', function(req, res) {
     if(req.isAuthenticated()) {
         req.logout();

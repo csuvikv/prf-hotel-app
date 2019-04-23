@@ -7,8 +7,9 @@ const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const path = require('path')
 const cors = require('cors');
-require('./user.model');
-require('./hotel.model');
+require('./models/user.model');
+require('./models/hotel.model');
+require('./models/reservation.model');
 
 
 const dbUrl = "mongodb://dbUser:dbUserPassword@cluster0-shard-00-00-6whz0.mongodb.net:27017,cluster0-shard-00-01-6whz0.mongodb.net:27017,cluster0-shard-00-02-6whz0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
@@ -63,6 +64,7 @@ app.use(expressSession({secret: 'secret'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', require('./routes'));
+
 
 app.listen(PORT, function() {
     console.log('the server is running');

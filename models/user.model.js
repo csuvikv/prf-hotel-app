@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const reservationShema = require("./reservation.model")
 
 var userSchema = new mongoose.Schema({
     username: {type: String, unique: true, required: true, lowercase: true},
     password: {type: String, required: true},
-    age: {type: Number}
+    fullname: {type: String},
+    admin: {type: Boolean},
+    email: {type: String, required: true},
+    reservations: [{reservationShema}]
 }, {collection: 'user'});
+
 
 userSchema.pre('save', function(next) {
     var user = this;

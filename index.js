@@ -47,12 +47,15 @@ passport.deserializeUser(function(user, done) {
 
 passport.use('local', new localStrategy(function(username, password, done) {
     userModel.findOne({username: username}, function(err, user) {
-        if(!user || err) { 
-            return done("cannot get user", false);
+        if (err) {
+            return done({status: "error", reason: "database", detalis: error}, false);
+        }
+        if(!user) { 
+            return done({status: "warning", reason: "entity_not_found", details: "user"}, false);
         }
         user.comparePasswords(password, function(err, isMatch) {
             if(err || !isMatch) {
-                return done("password incorrect", false);
+                return done({status: "warning", reason: "entity_not_found", details: "password"}, false);
             }
             return done(null, user);
         });

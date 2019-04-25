@@ -164,7 +164,7 @@ router.post('/new-hotel', function(req, res) {
 });
 
 
-router.put('/update-hotel', function(req, res) {
+router.put('/hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(404).send({ status: "warning", reason: "missing_parameters", details: ["qname"]});
@@ -193,7 +193,7 @@ router.put('/update-hotel', function(req, res) {
 });
 
 
-router.put('/update-user', function(req, res) {
+router.put('/user', function(req, res) {
     if (req.isAuthenticated()) {
         if(!req.body.username) {
             return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});

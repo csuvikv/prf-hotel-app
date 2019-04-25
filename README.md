@@ -1,5 +1,6 @@
 # prf-hotel-app
 Availalbe on Heroku: https://prf-hotel-app.herokuapp.com
+
 MongoDB is hosted by: https://cloud.mongodb.com
 
 ## In case of development:
@@ -10,7 +11,7 @@ MongoDB is hosted by: https://cloud.mongodb.com
 ## If only the REST interface is needed:
 Every returned JSON is in the following format:
 ```{status: "STATUS_CODE", reason: "REASONS", details: DETAILS}```
-Where:
+, where:
   - STATUS_CODE can be: ok/warning/error. In case of warning/error further information is returned (reason and details).
   - REASONS:
     - missing_parameters: missing parameters to run a query (warning)
@@ -40,17 +41,23 @@ Where:
   - https://prf-hotel-app.herokuapp.com/new-hotel: creates a new hotel
     - the request body should contain at least the following parameters: qname
     - you should be logged in with admin privileges
-  - https://prf-hotel-app.herokuapp.com/update-hotel: updates a hotel
-    - the request body should contain at least the following parameters: qname
-    - you should be logged in with admin privileges
-  - https://prf-hotel-app.herokuapp.com/update-user: updates a user
-    - the request body should contain at least the following parameters: username
-    - you should be logged in
-  - https://prf-hotel-app.herokuapp.com/invalidate-reservation: invalidates a reservation
-    - the request body should contain at least the following parameters: hotel (qname), user (username), room_number
-    - you should be logged in with admin privileges
   - https://prf-hotel-app.herokuapp.com/reservate: reserves a room in a hotel for a user
     - the request body should contain at least the following parameters: hotel (qname), user (username), room_number
     - you should be logged in
-  
-   
+- PUT:
+  - https://prf-hotel-app.herokuapp.com/invalidate-reservation: invalidates a reservation
+    - the request body should contain at least the following parameters: hotel (qname), user (username), room_number
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/hotel: updates a hotel
+    - the request body should contain at least the following parameters: qname
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/user: updates a user
+    - the request body should contain at least the following parameters: username
+    - you should be logged in
+- DELETE:
+  - https://prf-hotel-app.herokuapp.com/user: deletes a user
+    - the request body should contain at least the following parameters: username
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/hotel: deletes a hotel
+    - the request body should contain at least the following parameters: qname
+    - you should be logged in with admin privileges

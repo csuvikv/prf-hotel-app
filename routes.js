@@ -49,7 +49,7 @@ router.post('/login', function (req, res) {
     if (req.body.username && req.body.password) {
         passport.authenticate('local', function (error, username) {
             if (error) {
-                return res.status(403).send({status: "warning", reason: "unauthorized", detalis: error});
+                return res.status(404).send({status: "warning", reason: "unauthorized", detalis: error});
             } else {
                 req.logIn(username, function (error) {
                     if (error) { 

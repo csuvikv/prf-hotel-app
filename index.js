@@ -71,7 +71,7 @@ passport.use('local', new localStrategy(function(username, password, done) {
             return done({status: "error", reason: "database", detalis: error}, false);
         }
         if(!user) { 
-            return done({status: "warning", reason: "entity_not_found", details: "user"}, false);
+            return done(null, false);
         }
         user.comparePasswords(password, function(err, isMatch) {
             if(err || !isMatch) {

@@ -15,7 +15,7 @@ router.get('/testConnection', function(req, res) {
 router.post('/register', function(req, res) {
 
     if(!req.body.username || !req.body.password) {
-        return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username", "password"]});
+        return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username", "password"]});
     } else {
 
         userModel.findOne({username: req.body.username}, function(err, user) {
@@ -23,7 +23,7 @@ router.post('/register', function(req, res) {
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }
             if (user) {
-                return res.status(404).send({status: "warning", reason: "duplicate_entry", details: user});
+                return res.status(400).send({status: "warning", reason: "duplicate_entry", details: user});
             }
         });
 
@@ -49,7 +49,7 @@ router.post('/login', function (req, res) {
     if (req.body.username && req.body.password) {
         passport.authenticate('local', function (error, username) {
             if (error) {
-                return res.status(404).send({status: "warning", reason: "unauthorized", detalis: error});
+                return res.status(403).send({status: "warning", reason: "unauthorized", detalis: error});
             } else {
                 req.logIn(username, function (error) {
                     if (error) { 
@@ -60,7 +60,7 @@ router.post('/login', function (req, res) {
             }
         })(req, res);
     } else {
-        return res.status(403).send({status: "warning", reason: "missing_parameters", details: ["username", "password"]});
+        return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username", "password"]});
     }
 });
 
@@ -70,7 +70,7 @@ router.post('/logout', function(req, res) {
         req.logout();
         res.status(200).send({status: "ok"});
     } else {
-        res.status(403).send({status: "warning", reason: "unauthorized"});
+        res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -84,7 +84,7 @@ router.get('/users', function(req, res) {
             return res.status(200).send(users);
         });
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -92,7 +92,7 @@ router.get('/users', function(req, res) {
 router.get('/user', function(req, res) {
    if (req.isAuthenticated()) {
         if (!req.body.username) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
         } else {
             userModel.findOne({username: req.body.username}, function(err, user) {
                 if (err) {
@@ -105,14 +105,14 @@ router.get('/user', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
 
 router.get('/hotel', function(req, res) {
     if (!req.body.qname) {
-        return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
+        return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
     } else {
         hotelModel.findOne({qname: req.body.qname}, function(err, hotel) {
             if (err) {
@@ -130,7 +130,7 @@ router.get('/hotel', function(req, res) {
 router.post('/new-hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
         } else {
 
             hotelModel.findOne({qname: req.body.qname}, function(err, hotel) {
@@ -138,7 +138,7 @@ router.post('/new-hotel', function(req, res) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                 }
                 if (hotel) {
-                    return res.status(404).send({status: "warning", reason: "duplicate_entry", details: hotel});
+                    return res.status(400).send({status: "warning", reason: "duplicate_entry", details: hotel});
                 }
             });
 
@@ -159,7 +159,7 @@ router.post('/new-hotel', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -188,7 +188,7 @@ router.put('/hotel', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -196,7 +196,7 @@ router.put('/hotel', function(req, res) {
 router.put('/user', function(req, res) {
     if (req.isAuthenticated()) {
         if(!req.body.username) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
         } else {
             userModel.findOne({username: req.body.username}, function(err, user) {
                 if (err) {
@@ -215,7 +215,7 @@ router.put('/user', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -233,7 +233,7 @@ router.get('/hotels', function(req, res) {
 router.put('/invalidate-reservation', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
         } else {
             reservationModel.findOne({user: req.body.user, hotel: req.body.hotel, room_number: req.body.room_number}, function(err, reservation) {
                 if (!reservation) {
@@ -248,7 +248,7 @@ router.put('/invalidate-reservation', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -256,7 +256,7 @@ router.put('/invalidate-reservation', function(req, res) {
 router.delete('/user', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.username) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
         } else {
             userModel.findOne({username: req.body.username}, function(err, user) {
                 if (err) {
@@ -275,7 +275,7 @@ router.delete('/user', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -283,7 +283,7 @@ router.delete('/user', function(req, res) {
 router.delete('/hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
         } else {
             hotelModel.findOne({qname: req.body.qname}, function(err, hotel) {
                 if (err) {
@@ -302,7 +302,7 @@ router.delete('/hotel', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -310,7 +310,7 @@ router.delete('/hotel', function(req, res) {
 router.post('/reservate', function(req, res) {
     if (req.isAuthenticated()) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
-            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
+            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
         } else {
             var found_hotel = undefined;
 
@@ -371,7 +371,7 @@ router.post('/reservate', function(req, res) {
             });
         }
     } else {
-        return res.status(403).send({status: "warning", reason: "unauthorized"});
+        return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
 

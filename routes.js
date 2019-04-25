@@ -7,6 +7,10 @@ const utils = require('./utils');
 const reservationModel = mongoose.model('reservation');
 var router = express.Router();
 
+router.get('/testConnection', function(req, res) {
+    return res.status(200).send({status: "ok"});
+});
+
 
 router.post('/register', function(req, res) {
 

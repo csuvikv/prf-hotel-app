@@ -17,11 +17,7 @@ const userModel = mongoose.model('user');
 
 const corsOptions = {
     origin: (origin, callback) => {
-        if (origin == "https://prf-angular.herokuapp.com") {
-            callback(null, true);
-        } else {
-            callback(new Error('Origin not allowed by CORS'));
-        }
+        callback(null, true);
     }
 }
 

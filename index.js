@@ -11,12 +11,22 @@ require('./models/user.model');
 require('./models/hotel.model');
 require('./models/reservation.model');
 
-
 const dbUrl = "mongodb://dbUser:dbUserPassword@cluster0-shard-00-00-6whz0.mongodb.net:27017,cluster0-shard-00-01-6whz0.mongodb.net:27017,cluster0-shard-00-02-6whz0.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
 const PORT = process.env.PORT || 5000
 const userModel = mongoose.model('user');
 
+const corsOptions = {
+    origin: (origin, callback) => {
+      if (origin == "https://prf-angular.herokuapp.com") {
+        callback(null, true);
+      } else {
+        callback(new Error('Origin not allowed by CORS'));
+      }
+    }
+  }
+
 var app = express();
+app.options('*', cors(corsOptions));
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
@@ -68,6 +78,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', require('./routes'));
 
+/*app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
+    next();
+});*/
+
+app.get('/', cors(corsOptions), (req, res, next) => {
+    res.json({ message: 'This route is CORS-enabled for an allowed origin.' });
+  })
 
 app.listen(PORT, function() {
     console.log('the server is running');

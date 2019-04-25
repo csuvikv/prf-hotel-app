@@ -8,19 +8,6 @@ const reservationModel = mongoose.model('reservation');
 var router = express.Router();
 
 
-router.get('/', function(req, res) {
-    if(req.isAuthenticated()) {
-        return res.status(200).send("Hello World");
-    } else {
-        return res.status(403).send("You are not welcome here");
-    }
-});
-
-
-router.get('/testConnection', function(req, res) {
-    return res.status(200).send({status: "ok"});
-});
-
 router.post('/register', function(req, res) {
 
     if(!req.body.username || !req.body.password) {

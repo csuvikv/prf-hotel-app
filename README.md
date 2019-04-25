@@ -9,7 +9,7 @@ MongoDB is hosted by: https://cloud.mongodb.com
 
 ## If only the REST interface is needed:
 Every returned JSON is in the following format:
-```{status: "STATUS_CODE", reason: "REASONS", details: [DETAILS]}```
+```{status: "STATUS_CODE", reason: "REASONS", details: DETAILS}```
 Where:
   - STATUS_CODE can be: ok/warning/error. In case of warning/error further information is returned (reason and details).
   - REASONS:
@@ -18,7 +18,7 @@ Where:
     - duplicate_entry: duplicate key in the database (warning)
     - unauthorized: unauthorized acces (warning)
     - entity_not_found: the given entity cannot be found (warning)
-  - DETALS: a list or a JSON object, that helps understand the warning or error
+  - DETAILS: a list or a JSON object, that helps understand the warning or error
 
 
 - GET:

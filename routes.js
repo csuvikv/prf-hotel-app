@@ -49,7 +49,7 @@ router.post('/login', function (req, res) {
     if (req.body.username && req.body.password) {
         passport.authenticate('local', function (error, username) {
             if (error) {
-                return res.status(403).send({status: "warning", reason: "unauthorized", detalis: error});
+                return res.status(401).send({status: "warning", reason: "unauthorized", detalis: error});
             } else {
                 req.logIn(username, function (error) {
                     if (error) { 
@@ -108,6 +108,15 @@ router.get('/user', function(req, res) {
         return res.status(401).send({status: "warning", reason: "unauthorized"});
     }
 });
+
+
+router.get('/logged-in-user', function(req, res) {
+    if (req.isAuthenticated()) {
+        return res.status(200).send({ username: req.user.username, fullname: req.user.fullname, reservations: req.user.reservations, admin:  req.user.admin, email: req.user.email});
+     } else {
+         return res.status(401).send({status: "warning", reason: "unauthorized"});
+     }
+ });
 
 
 router.get('/hotel', function(req, res) {

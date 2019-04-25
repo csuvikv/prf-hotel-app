@@ -164,7 +164,7 @@ router.post('/new-hotel', function(req, res) {
 });
 
 
-router.post('/update-hotel', function(req, res) {
+router.put('/update-hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(404).send({ status: "warning", reason: "missing_parameters", details: ["qname"]});
@@ -193,7 +193,7 @@ router.post('/update-hotel', function(req, res) {
 });
 
 
-router.post('/update-user', function(req, res) {
+router.put('/update-user', function(req, res) {
     if (req.isAuthenticated()) {
         if(!req.body.username) {
             return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
@@ -230,7 +230,7 @@ router.get('/hotels', function(req, res) {
 });
 
 
-router.post('/invalidate-reservation', function(req, res) {
+router.put('/invalidate-reservation', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
             return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
@@ -253,7 +253,7 @@ router.post('/invalidate-reservation', function(req, res) {
 });
 
 
-router.post('/delete-user', function(req, res) {
+router.delete('/user', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.username) {
             return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
@@ -280,7 +280,7 @@ router.post('/delete-user', function(req, res) {
 });
 
 
-router.post('/delete-hotel', function(req, res) {
+router.delete('/hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["qname"]});

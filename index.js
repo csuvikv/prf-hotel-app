@@ -15,15 +15,27 @@ const dbUrl = "mongodb://dbUser:dbUserPassword@cluster0-shard-00-00-6whz0.mongod
 const PORT = process.env.PORT || 5000
 const userModel = mongoose.model('user');
 
+const allowedOrigins = [
+    'https://prf-angular.herokuapp.com',
+    'https://prf-angular.herokuapp.com/*',
+    'http://localhost',
+    'http://localhost:8080',
+    'http://localhost:8100'
+  ];
+
 const corsOptions = {
     origin: (origin, callback) => {
-        callback(null, true);
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Origin not allowed by CORS'));
+        }
     }
 }
 
 var app = express();
 app.options('*', cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 app.use(cookieParser());

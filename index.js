@@ -31,7 +31,8 @@ const corsOptions = {
             callback(new Error('Origin not allowed by CORS'));
         }*/
         callback(null, true);
-    }
+    },
+    credentials: true
 }
 
 var app = express();

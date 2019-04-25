@@ -363,13 +363,7 @@ router.post('/reservate', function(req, res) {
                                 if (err) { 
                                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                                 }
-                                utils.sendMail(user, hotel, room_number).sendMail(mailOptions, function(error, info) {
-                                    if (error) {
-                                        return res.status(500).send({status: "error", reason: "email", detalis: error});
-                                    } else {
-                                        return res.status(200).send({status: "ok", details: result, email: info});
-                                    }
-                                });
+                                return utils.sendMail(user, hotel, room_number, res);
                             });
                         });
                     });

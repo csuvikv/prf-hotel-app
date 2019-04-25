@@ -4,7 +4,7 @@ module.exports = {
     isAdmin:function(req) {
         return req.isAuthenticated() && req.session.passport.user && req.session.passport.user.admin == true ? true : false;
     }, 
-    sendMail:function(user, hotel, room_number) {
+    sendMail:function(user, hotel, room_number, res) {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -28,6 +28,12 @@ module.exports = {
                   '\n prf-hotel-app'
           };
           
-        return transporter;
+          transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                return res.status(500).send({status: "error", reason: "email", detalis: error});
+            } else {
+                return res.status(200).send({status: "ok"});
+            }
+        });
     }
 }

@@ -17,13 +17,13 @@ const userModel = mongoose.model('user');
 
 const corsOptions = {
     origin: (origin, callback) => {
-      if (origin == "https://prf-angular.herokuapp.com") {
-        callback(null, true);
-      } else {
-        callback(new Error('Origin not allowed by CORS'));
-      }
+        if (origin == "https://prf-angular.herokuapp.com") {
+            callback(null, true);
+        } else {
+            callback(new Error('Origin not allowed by CORS'));
+        }
     }
-  }
+}
 
 var app = express();
 app.options('*', cors(corsOptions));
@@ -76,18 +76,18 @@ passport.use('local', new localStrategy(function(username, password, done) {
 app.use(expressSession({secret: 'secret'}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', require('./routes'));
+app.use('/', cors(corsOptions), require('./routes'));
 
 /*app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
     next();
-});*/
+});
 
 app.get('/', cors(corsOptions), (req, res, next) => {
     res.json({ message: 'This route is CORS-enabled for an allowed origin.' });
-  })
+});*/
 
 app.listen(PORT, function() {
     console.log('the server is running');

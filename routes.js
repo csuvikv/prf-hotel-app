@@ -194,25 +194,28 @@ router.post('/update-hotel', function(req, res) {
 
 
 router.post('/update-user', function(req, res) {
-
-    if(!req.body.username || !req.body.password) {
-        return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username", "password"]});
-    } else {
-        userModel.findOne({username: req.body.username}, function(err, user) {
-            if (err) {
-                return res.status(500).send({status: "error", reason: "database", detalis: error});
-            }
-            if (!user) {
-                return res.status(404).send({status: "warning", reason: "entity_not_found", details: "user"});
-            }
-
-            userModel.updateOne({ username: req.body.username}, {$set: {username: req.body.username, password: req.body.password, fullname: req.body.fullname, email: req.body.email }}, function(err, result) {
-                if (err) { 
+    if (req.isAuthenticated()) {
+        if(!req.body.username) {
+            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
+        } else {
+            userModel.findOne({username: req.body.username}, function(err, user) {
+                if (err) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                 }
-                return res.status(200).send({status: "ok", details: result});
+                if (!user) {
+                    return res.status(404).send({status: "warning", reason: "entity_not_found", details: "user"});
+                }
+
+                userModel.updateOne({ username: req.body.username}, {$set: {username: req.body.username, password: req.body.password, fullname: req.body.fullname, email: req.body.email }}, function(err, result) {
+                    if (err) { 
+                        return res.status(500).send({status: "error", reason: "database", detalis: error});
+                    }
+                    return res.status(200).send({status: "ok", details: result});
+                });
             });
-        });
+        }
+    } else {
+        return res.status(403).send({status: "warning", reason: "unauthorized"});
     }
 });
 
@@ -241,6 +244,60 @@ router.post('/invalidate-reservation', function(req, res) {
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
                     return res.status(200).send({status: "ok"});
+                });
+            });
+        }
+    } else {
+        return res.status(403).send({status: "warning", reason: "unauthorized"});
+    }
+});
+
+
+router.post('/delete-user', function(req, res) {
+    if (utils.isAdmin(req)) {
+        if (!req.body.username) {
+            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["username"]});
+        } else {
+            userModel.findOne({username: req.body.username}, function(err, user) {
+                if (err) {
+                    return res.status(500).send({status: "error", reason: "database", detalis: error});
+                }
+                if (!user) {
+                    return res.status(404).send({status: "warning", reason: "entity_not_found", details: "user"});
+                }
+
+                userModel.deleteOne({username: req.body.username}, function(err, result) {
+                    if (err) { 
+                        return res.status(500).send({status: "error", reason: "database", detalis: error});
+                    }
+                    return res.status(200).send({status: "ok", details: result});
+                });
+            });
+        }
+    } else {
+        return res.status(403).send({status: "warning", reason: "unauthorized"});
+    }
+});
+
+
+router.post('/delete-hotel', function(req, res) {
+    if (utils.isAdmin(req)) {
+        if (!req.body.qname) {
+            return res.status(404).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
+        } else {
+            hotelModel.findOne({qname: req.body.qname}, function(err, hotel) {
+                if (err) {
+                    return res.status(500).send({status: "error", reason: "database", detalis: error});
+                }
+                if (!hotel) {
+                    return res.status(404).send({status: "warning", reason: "entity_not_found", details: "hotel"});
+                }
+                
+                hotelModel.deleteOne({qname: req.body.qname}, function(err, result) {
+                    if (err) { 
+                        return res.status(500).send({status: "error", reason: "database", detalis: error});
+                    }
+                    return res.status(200).send({status: "ok", details: result});
                 });
             });
         }

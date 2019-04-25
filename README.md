@@ -1,5 +1,6 @@
 # prf-hotel-app
 Availalbe on Heroku: https://prf-hotel-app.herokuapp.com
+MongoDB is hosted by: https://cloud.mongodb.com
 
 ## In case of development:
 - ```git clone https://github.com/csuvikv/prf-hotel-app```
@@ -7,19 +8,49 @@ Availalbe on Heroku: https://prf-hotel-app.herokuapp.com
 - ```node index.js```
 
 ## If only the REST interface is needed:
+Every returned JSON is in the following format:
+```{status: "STATUS_CODE", reason: "REASONS", details: [DETAILS]}```
+Where:
+  - STATUS_CODE can be: ok/warning/error. In case of warning/error further information is returned (reason and details).
+  - REASONS:
+    - missing_parameters: missing parameters to run a query (warning)
+    - database: database error (error)
+    - duplicate_entry: duplicate key in the database (warning)
+    - unauthorized: unauthorized acces (warning)
+    - entity_not_found: the given entity cannot be found (warning)
+  - DETALS: a list or a JSON object, that helps understand the warning or error
+
+
 - GET:
   - https://prf-hotel-app.herokuapp.com/testConnection: returns a JSON if the connection is ok
-  - https://prf-hotel-app.herokuapp.com/: returns a string, which value depends on authentication
   - https://prf-hotel-app.herokuapp.com/users: lists users
     - you should be logged in with admin privileges: ```{"username": "admin", "password": "admin"}```
   - https://prf-hotel-app.herokuapp.com/hotels: lists hotels
+  - https://prf-hotel-app.herokuapp.com/user: returns detailed information from a user
+    - you should be logged in
+    - the request body should contain at least the following parameters: username
+  - https://prf-hotel-app.herokuapp.com/user: returns detailed information from a hotel
+    - the request body should contain at least the following parameters: qname
 - POST:
   - https://prf-hotel-app.herokuapp.com/register: registers a new user
-    - the request body should contain the password and username
+    - the request body should contain at least the following parameters: username, passsword
   - https://prf-hotel-app.herokuapp.com/login: logs in a user
-    - the request body should contain the password and username ```(eg.: {"username": "appUser", "password": "appUserPassword"})```
+    - the request body should contain at least the following parameters: username, passsword
   - https://prf-hotel-app.herokuapp.com/logout: logs out the user
-  - https://prf-hotel-app.herokuapp.com/new-hotel: created a new hotel
-    - the request body should contain qname
+  - https://prf-hotel-app.herokuapp.com/new-hotel: creates a new hotel
+    - the request body should contain at least the following parameters: qname
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/update-hotel: updates a hotel
+    - the request body should contain at least the following parameters: qname
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/update-user: updates a user
+    - the request body should contain at least the following parameters: username
+    - you should be logged in
+  - https://prf-hotel-app.herokuapp.com/invalidate-reservation: invalidates a reservation
+    - the request body should contain at least the following parameters: hotel (qname), user (username), room_number
+    - you should be logged in with admin privileges
+  - https://prf-hotel-app.herokuapp.com/reservate: reserves a room in a hotel for a user
+    - the request body should contain at least the following parameters: hotel (qname), user (username), room_number
+    - you should be logged in
   
-    
+   

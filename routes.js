@@ -151,6 +151,8 @@ router.post('/new-hotel', function(req, res) {
                 }
             });
 
+
+            console.log(req);
             console.log(req.files);
 
             for (file in req.files) {

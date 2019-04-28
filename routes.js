@@ -151,8 +151,20 @@ router.post('/new-hotel', function(req, res) {
                 }
             });
 
+            console.log(req.files);
+
+            for (file in req.files) {
+                console.log(file);
+                console.log(file.path);
+            }
+
             /*var image = fs.readFileSync(req.files.file);
             var encImg = image.toString('base64');*/
+
+            /* var newItem = new Item();
+            newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
+            newItem.img.contentType = ‘image/png’;
+            newItem.save();*/
 
             var hotel = new hotelModel({
                 qname: req.body.qname,

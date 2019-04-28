@@ -7,6 +7,7 @@ const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const path = require('path')
 const cors = require('cors');
+//const multer = require('multer');
 require('./models/user.model');
 require('./models/hotel.model');
 require('./models/reservation.model');
@@ -88,16 +89,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', cors(corsOptions), require('./routes'));
 
-/*app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
-    next();
-});
-
-app.get('/', cors(corsOptions), (req, res, next) => {
-    res.json({ message: 'This route is CORS-enabled for an allowed origin.' });
-});*/
+/*app.use(multer({ dest: "./uploads/",
+    rename: function (fieldname, filename) {
+      return filename;
+    },
+}));*/
 
 app.listen(PORT, function() {
     console.log('the server is running');

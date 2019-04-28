@@ -32,6 +32,8 @@ Every returned JSON is in the following format:
     - the request body should contain at least the following parameters: username
   - https://prf-hotel-app.herokuapp.com/user: returns detailed information from a hotel
     - the request body should contain at least the following parameters: qname
+  - https://prf-hotel-app.herokuapp.com/logged-in-user: returns detailed information of the logged in user
+    - you should be logged in
 - POST:
   - https://prf-hotel-app.herokuapp.com/register: registers a new user
     - the request body should contain at least the following parameters: username, passsword

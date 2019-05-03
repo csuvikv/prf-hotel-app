@@ -338,6 +338,8 @@ router.post('/reservate', function(req, res) {
 
     console.log(req.body);
 
+    
+
     if (req.isAuthenticated()) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
@@ -349,6 +351,7 @@ router.post('/reservate', function(req, res) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                 }
                 
+                console.log("=================================");
                 console.log(hotel);
 
                 userModel.findOne({username: req.body.user}, function(err, user) {
@@ -356,6 +359,7 @@ router.post('/reservate', function(req, res) {
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
 
+                    console.log("=================================");
                     console.log(user);
 
                     if (!user) {
@@ -383,23 +387,28 @@ router.post('/reservate', function(req, res) {
                     var new_reservations = user.reservations;
                     new_reservations.push(reservation);
                     
+                    console.log("=================================");
                     console.log(reservation);
 
                     reservation.save(function(error) {
                         if (error) { 
                             return res.status(500).send({status: "error", reason: "database", detalis: error});
                         }
-        
+                        console.log("reservation saved");
+
                         userModel.updateOne({username: user.username }, {$set: {reservations: new_reservations }}, function(err, result) {
                             if (err) { 
                                 return res.status(500).send({status: "error", reason: "database", detalis: error});
                             }
+
+                            console.log("user updated");
                             
                             hotelModel.updateOne({qname: hotel.qname }, {$set: {availalble_rooms: hotel.availalble_rooms-1 }}, function(err, result) {
                                 if (err) { 
                                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                                 }
-                                
+                                console.log("hotel updated");
+
                                 return utils.sendMail(user, hotel, room_number, res);
                             });
                         });

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const utils = require('./utils');
+const bcrypt = require('bcryptjs');
 const reservationShema = require("./reservation.model")
 
 var userSchema = new mongoose.Schema({
@@ -13,11 +13,43 @@ var userSchema = new mongoose.Schema({
 
 
 userSchema.pre('save', function(next) {
-    return utils(this, next);
+    var user = this;
+    if(user.isModified('password')) {
+        bcrypt.genSalt(10, function(error, salt) {
+            if(error) {
+                return next(error);
+            }
+            bcrypt.hash(user.password, salt, function(error, hash) {
+                if(error) {
+                    return next(error);
+                }
+                user.password = hash;
+                return next();
+            });
+        });
+    } else {
+        return next();
+    }
 });
 
 userSchema.pre("update", function(next) {
-    return utils(this, next);
+    var user = this;
+    if(user.isModified('password')) {
+        bcrypt.genSalt(10, function(error, salt) {
+            if(error) {
+                return next(error);
+            }
+            bcrypt.hash(user.password, salt, function(error, hash) {
+                if(error) {
+                    return next(error);
+                }
+                user.password = hash;
+                return next();
+            });
+        });
+    } else {
+        return next();
+    }
 });
 
 

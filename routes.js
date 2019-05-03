@@ -331,6 +331,9 @@ router.delete('/hotel', function(req, res) {
 
 
 router.post('/reservate', function(req, res) {
+
+    console.log(req);
+
     if (req.isAuthenticated()) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});

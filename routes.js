@@ -112,7 +112,21 @@ router.get('/user', function(req, res) {
 
 router.get('/logged-in-user', function(req, res) {
     if (req.isAuthenticated()) {
-        return res.status(200).send({ username: req.user.username, fullname: req.user.fullname, reservations: req.user.reservations, admin:  req.user.admin, email: req.user.email});
+        var reservationObjects = [];
+
+        for (res in req.user.reservations) {
+            reservationModel.findOne({_id: res}, function(err, reservation) {
+                if (err) {
+                    return res.status(500).send({status: "error", reason: "database", detalis: error});
+                }
+                if (reservation) {
+                    reservationObjects.push(reservation);
+                }
+            });
+        }
+        
+        return res.status(200).send({ username: req.user.username, fullname: req.user.fullname, reservations: reservationObjects, admin:  req.user.admin, email: req.user.email});
+
      } else {
          return res.status(401).send({status: "warning", reason: "unauthorized"});
      }
@@ -218,7 +232,17 @@ router.put('/hotel', function(req, res) {
 
 router.put('/user', function(req, res) {
     if (req.isAuthenticated()) {
-        userModel.updateOne({ username: req.user.username}, {$set: {password: req.body.password, fullname: req.body.fullname, email: req.body.email }}, function(err, result) {
+
+        var updateObj = {
+            fullname: req.body.fullname,
+            email: req.body.email
+        };
+
+        if (req.body.password) {
+            updateObj.password = req.body.password;
+        }
+
+        userModel.updateOne({ username: req.user.username}, {$set: updateObj}, function(err, result) {
             if (err) { 
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }

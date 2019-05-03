@@ -334,6 +334,10 @@ router.post('/reservate', function(req, res) {
 
     console.log(req);
 
+    console.log("=================================");
+
+    console.log(req.body);
+
     if (req.isAuthenticated()) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});

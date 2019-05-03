@@ -172,9 +172,9 @@ router.post('/new-hotel', function(req, res) {
             console.log(req);
             console.log(req.files);
 
-            req.files.forEach(element => {
+            /*.forEach(element => {
                 console.log(element);
-            });
+            });*/
 
             /*var image = fs.readFileSync(req.files.file);
             var encImg = image.toString('base64');*/

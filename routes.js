@@ -122,7 +122,7 @@ router.get('/logged-in-user', function(req, res) {
             var formatedReservations = [];
 
             reservations.forEach(reservarion => {
-                if (reservarion.user == req.user.username) {
+                if (reservarion.user == req.user.username && reservation.valid) {
                     formatedReservations.push(reservarion);
                 }
             });

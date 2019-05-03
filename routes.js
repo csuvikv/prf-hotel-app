@@ -114,8 +114,8 @@ router.get('/logged-in-user', function(req, res) {
     if (req.isAuthenticated()) {
         var reservationObjects = [];
 
-        for (res in req.user.reservations) {
-            reservationModel.findOne({_id: res}, function(err, reservation) {
+        for (_res in req.user.reservations) {
+            reservationModel.findOne({_id: _res}, function(err, reservation) {
                 if (err) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                 }
@@ -124,7 +124,7 @@ router.get('/logged-in-user', function(req, res) {
                 }
             });
         }
-        
+
         return res.status(200).send({ username: req.user.username, fullname: req.user.fullname, reservations: reservationObjects, admin:  req.user.admin, email: req.user.email});
 
      } else {

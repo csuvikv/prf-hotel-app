@@ -5,6 +5,7 @@ const userModel = mongoose.model('user');
 const hotelModel = mongoose.model('hotel');
 const utils = require('./utils');
 const reservationModel = mongoose.model('reservation');
+const ObjectId = require('mongodb').ObjectId; 
 var router = express.Router();
 
 router.get('/testConnection', function(req, res) {
@@ -112,21 +113,23 @@ router.get('/user', function(req, res) {
 
 router.get('/logged-in-user', function(req, res) {
     if (req.isAuthenticated()) {
-        var reservationObjects = [];
 
-        for (_res in req.user.reservations) {
-            reservationModel.findOne({_id: _res}, function(err, reservation) {
-                if (err) {
-                    return res.status(500).send({status: "error", reason: "database", detalis: err});
-                }
-                if (reservation) {
-                    reservationObjects.push(reservation);
+        reservationModel.find({}, function(err, reservations) {
+            if (err) {
+                return res.status(500).send({status: "error", reason: "database", detalis: error});
+            }
+
+            var formatedReservations = [];
+
+            reservations.forEach(reservarion => {
+                if (reservarion.user == req.user.username) {
+                    formatedReservations.push(reservarion);
                 }
             });
-        }
 
-        return res.status(200).send({ username: req.user.username, fullname: req.user.fullname, reservations: reservationObjects, admin:  req.user.admin, email: req.user.email});
+            return res.status(200).send({ reservations: formatedReservations, username: req.user.username, fullname: req.user.fullname, admin:  req.user.admin, email: req.user.email});
 
+        });
      } else {
          return res.status(401).send({status: "warning", reason: "unauthorized"});
      }
@@ -169,10 +172,9 @@ router.post('/new-hotel', function(req, res) {
             console.log(req);
             console.log(req.files);
 
-            for (file in req.files) {
-                console.log(file);
-                console.log(file.path);
-            }
+            req.files.forEach(element => {
+                console.log(element);
+            });
 
             /*var image = fs.readFileSync(req.files.file);
             var encImg = image.toString('base64');*/

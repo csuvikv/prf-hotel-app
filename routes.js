@@ -349,10 +349,14 @@ router.post('/reservate', function(req, res) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                 }
                 
+                console.log(hotel);
+
                 userModel.findOne({username: req.body.user}, function(err, user) {
                     if (err) {
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
+
+                    console.log(user);
 
                     if (!user) {
                         return res.status(404).send({status: "warning", reason: "entity_not_found", details: "user"});
@@ -378,7 +382,9 @@ router.post('/reservate', function(req, res) {
         
                     var new_reservations = user.reservations;
                     new_reservations.push(reservation);
-        
+                    
+                    console.log(reservation);
+
                     reservation.save(function(error) {
                         if (error) { 
                             return res.status(500).send({status: "error", reason: "database", detalis: error});
@@ -393,6 +399,7 @@ router.post('/reservate', function(req, res) {
                                 if (err) { 
                                     return res.status(500).send({status: "error", reason: "database", detalis: error});
                                 }
+                                
                                 return utils.sendMail(user, hotel, room_number, res);
                             });
                         });

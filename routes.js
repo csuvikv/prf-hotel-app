@@ -218,28 +218,12 @@ router.put('/hotel', function(req, res) {
 
 router.put('/user', function(req, res) {
     if (req.isAuthenticated()) {
-        if(!req.body.username) {
-            return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
-        } else {
-
-            console.log(req.body);
-
-            userModel.findOne({username: req.body.username}, function(err, user) {
-                if (err) {
-                    return res.status(500).send({status: "error", reason: "database", detalis: error});
-                }
-                if (!user) {
-                    return res.status(404).send({status: "warning", reason: "entity_not_found", details: "user"});
-                }
-
-                userModel.updateOne({ username: req.body.username}, {$set: {password: req.body.password, fullname: req.body.fullname, email: req.body.email }}, function(err, result) {
-                    if (err) { 
-                        return res.status(500).send({status: "error", reason: "database", detalis: error});
-                    }
-                    return res.status(200).send({status: "ok", details: result});
-                });
-            });
-        }
+        userModel.updateOne({ username: req.user.username}, {$set: {password: req.body.password, fullname: req.body.fullname, email: req.body.email }}, function(err, result) {
+            if (err) { 
+                return res.status(500).send({status: "error", reason: "database", detalis: error});
+            }
+            return res.status(200).send({status: "ok", details: result});
+        });
     } else {
         return res.status(401).send({status: "warning", reason: "unauthorized"});
     }

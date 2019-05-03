@@ -276,8 +276,8 @@ router.put('/invalidate-reservation', function(req, res) {
 });
 
 
-router.delete('/user', function(req, res) {
-    if (utils.isAdmin(req)) {
+router.post('/user', function(req, res) {
+    if (req.isAuthenticated()) {
         if (!req.body.username) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
         } else {
@@ -303,7 +303,7 @@ router.delete('/user', function(req, res) {
 });
 
 
-router.delete('/hotel', function(req, res) {
+router.post('/hotel', function(req, res) {
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});

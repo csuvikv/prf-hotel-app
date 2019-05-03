@@ -1,6 +1,25 @@
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
+    hashPassword:function(user, next) {
+        if(user.isModified('password')) {
+            bcrypt.genSalt(10, function(error, salt) {
+                if(error) {
+                    return next(error);
+                }
+                bcrypt.hash(user.password, salt, function(error, hash) {
+                    if(error) {
+                        return next(error);
+                    }
+                    user.password = hash;
+                    return next();
+                });
+            });
+        } else {
+            return next();
+        }
+    },
     isAdmin:function(req) {
         return req.isAuthenticated() && req.session.passport.user && req.session.passport.user.admin == true ? true : false;
     }, 
@@ -18,13 +37,13 @@ module.exports = {
             to: user.email,
             subject: 'Your reservation was successful!',
             text: 'Dear ' + user.fullname + '!' +
-                  '\n Your reservetion in ' + hotel.fullname + ' was successful.' +
+                  '\n\n Your reservetion in ' + hotel.fullname + ' was successful.' +
                   '\n The details of your reservation:' +
                   '\n Hotel: ' + hotel.fullname + 
                   '\n Rooom number:' + room_number + 
                   '\n Given name: ' + user.fullname +
                   '\n Given email address: ' + user.email +
-                  '\n Best regards,' +
+                  '\n\n Best regards,' +
                   '\n prf-hotel-app'
           };
           

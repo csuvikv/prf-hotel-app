@@ -117,7 +117,7 @@ router.get('/logged-in-user', function(req, res) {
         for (_res in req.user.reservations) {
             reservationModel.findOne({_id: _res}, function(err, reservation) {
                 if (err) {
-                    return res.status(500).send({status: "error", reason: "database", detalis: error});
+                    return res.status(500).send({status: "error", reason: "database", detalis: err});
                 }
                 if (reservation) {
                     reservationObjects.push(reservation);

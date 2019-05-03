@@ -409,7 +409,7 @@ router.post('/reservate', function(req, res) {
                                 }
                                 console.log("hotel updated");
 
-                                return utils.sendMail(user, hotel, room_number, res);
+                                return utils.sendMail(user, hotel, req.body.room_number, res);
                             });
                         });
                     });

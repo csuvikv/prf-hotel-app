@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const reservationShema = require("./reservation.model")
 
 var hotelSchema = new mongoose.Schema({
     qname: {type: String, unique: true, required: true, lowercase: true},
@@ -16,6 +15,5 @@ hotelSchema.methods.isFull = function() {
     }
     return false;
 };
-
 
 mongoose.model('hotel', hotelSchema);

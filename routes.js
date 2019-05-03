@@ -221,6 +221,9 @@ router.put('/user', function(req, res) {
         if(!req.body.username) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["username"]});
         } else {
+
+            console.log(req.body);
+
             userModel.findOne({username: req.body.username}, function(err, user) {
                 if (err) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});

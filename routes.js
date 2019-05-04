@@ -218,7 +218,7 @@ router.put('/hotel', function(req, res) {
                     return res.status(404).send({ status: "warning", reason: "entity_not_found", details: "hotel"});
                 }
 
-                hotelModel.updateOne({ qname: hotel.qname }, {$set: {fullname: req.body.fullname, room_number: req.body.room_number, availalble_rooms: req.body.availalble_rooms }}, function(err, result) {
+                hotelModel.updateOne({ qname: hotel.qname }, {$set: {fullname: req.body.fullname, room_number: req.body.room_number, available_rooms: req.body.available_rooms }}, function(err, result) {
                     if (err) { 
                         return res.status(500).send({ status: "error", reason: "database", detalis: error});
                     }

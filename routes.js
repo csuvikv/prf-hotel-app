@@ -154,6 +154,10 @@ router.get('/hotel', function(req, res) {
 
 
 router.post('/new-hotel', function(req, res) {
+
+    console.log(req);
+    console.log(req.files);
+
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
@@ -169,8 +173,7 @@ router.post('/new-hotel', function(req, res) {
             });
 
 
-            console.log(req);
-            console.log(req.files);
+            
 
             /*.forEach(element => {
                 console.log(element);

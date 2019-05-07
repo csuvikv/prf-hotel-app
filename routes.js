@@ -8,27 +8,8 @@ const reservationModel = mongoose.model('reservation');
 const ObjectId = require('mongodb').ObjectId; 
 const  multipart  =  require('connect-multiparty');  
 const  multipartMiddleware  =  multipart({ uploadDir:  './' }); 
+const fs = require('fs');
 var router = express.Router();
-
-router.post('/upload', multipartMiddleware, (req, res) => {  
-
-    req.files.forEach(element => {
-        console.log(element);
-    });
-
-    /*var image = fs.readFileSync(req.files.file);
-    var encImg = image.toString('base64');*/
-
-    /* var newItem = new Item();
-    newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
-    newItem.img.contentType = ‘image/png’;
-    newItem.save();*/
-
-    return res.json({
-        'message': 'File uploaded succesfully.'
-    });
-});
-
 
 router.get('/testConnection', function(req, res) {
     return res.status(200).send({status: "ok"});
@@ -174,11 +155,7 @@ router.get('/hotel', function(req, res) {
     }
 });
 
-
-router.post('/new-hotel', function(req, res) {
-
-    console.log(req);
-    console.log(req.files);
+router.post('/new-hotel', multipartMiddleware, (req, res) => {  
 
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
@@ -213,7 +190,16 @@ router.post('/new-hotel', function(req, res) {
                 qname: req.body.qname,
                 fullname: req.body.fullname,
                 room_number: req.body.room_number,
-                availalble_rooms: req.body.availalble_rooms});
+                availalble_rooms: req.body.availalble_rooms
+            });
+
+            if (req.files) {
+                req.files.forEach(image => {
+                    console.log(image);
+                    console.log(image.path)
+                    hotel.image.data = fs.readFileSync(image.path);
+                });
+            }
 
             hotel.save(function(error) {
                 if (error) { 

@@ -7,7 +7,7 @@ const localStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const path = require('path')
 const cors = require('cors');
-//const multer = require('multer');
+const multer = require('multer');
 require('./models/user.model');
 require('./models/hotel.model');
 require('./models/reservation.model');

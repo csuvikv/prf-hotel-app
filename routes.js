@@ -6,7 +6,22 @@ const hotelModel = mongoose.model('hotel');
 const utils = require('./utils');
 const reservationModel = mongoose.model('reservation');
 const ObjectId = require('mongodb').ObjectId; 
+const  multipart  =  require('connect-multiparty');  
+const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' }); 
 var router = express.Router();
+
+router.post('/upload', multipartMiddleware, (req, res) => {  
+    console.log(req);
+
+    console.log(req.files);
+
+    console.log(req.file);
+
+    return res.json({
+        'message': 'File uploaded succesfully.'
+    });
+});
+
 
 router.get('/testConnection', function(req, res) {
     return res.status(200).send({status: "ok"});

@@ -90,16 +90,6 @@ app.use(passport.session());
 app.use('/', cors(corsOptions), require('./routes'));
 
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-app.post("/upload", multer({dest: "./uploads/"}).array("uploads", 12), function(req, res) {
-    res.send(req.files);
-});
-
 /*app.use(multer({ dest: "./uploads/",
     rename: function (fieldname, filename) {
       return filename;

@@ -11,11 +11,18 @@ const  multipartMiddleware  =  multipart({ uploadDir:  './' });
 var router = express.Router();
 
 router.post('/upload', multipartMiddleware, (req, res) => {  
-    console.log(req);
 
-    console.log(req.files);
+    req.files.forEach(element => {
+        console.log(element);
+    });
 
-    console.log(req.file);
+    /*var image = fs.readFileSync(req.files.file);
+    var encImg = image.toString('base64');*/
+
+    /* var newItem = new Item();
+    newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
+    newItem.img.contentType = ‘image/png’;
+    newItem.save();*/
 
     return res.json({
         'message': 'File uploaded succesfully.'

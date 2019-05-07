@@ -7,7 +7,7 @@ const utils = require('./utils');
 const reservationModel = mongoose.model('reservation');
 const ObjectId = require('mongodb').ObjectId; 
 const  multipart  =  require('connect-multiparty');  
-const  multipartMiddleware  =  multipart({ uploadDir:  './uploads' }); 
+const  multipartMiddleware  =  multipart({ uploadDir:  './' }); 
 var router = express.Router();
 
 router.post('/upload', multipartMiddleware, (req, res) => {  

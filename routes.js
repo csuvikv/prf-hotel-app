@@ -179,8 +179,8 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
             });
 
             console.log(req.files);
+            console.log("========================");
             console.log(req.files.image);
-
             console.log("========================");
 
             if (req.files) {
@@ -204,13 +204,13 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
 
                     req.files.image.forEach(image => {
                         console.log(image);
-                        images.push({ data: fs.readFileSync(image.path), contentType: String });
+                        images.push({ data: fs.readFileSync(image.path), contentType: string });
                     });
 
                 } else {
                     console.log("Not array: req.files.image");
 
-                    images.push({ data: fs.readFileSync(req.files.image.path), contentType: String });
+                    images.push({ data: fs.readFileSync(req.files.image.path), contentType: string });
                 }
 
                 hotel.images = images;

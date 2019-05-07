@@ -179,24 +179,39 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
             });
 
             console.log(req.files);
-            //console.log(req.files.image);
+            console.log(req.files.image);
 
-            for (var i = 0; i < req.files.image.length; ++i) {
-                console.log(req.files.image[i].path);
-            }
-
-
-            hotel.image.data = fs.readFileSync(req.files.image.path);
+            console.log("========================");
 
             if (req.files) {
-                images = []
-                /*req.files.image.forEach(image => {
-                    console.log(image);
-                    console.log(image.path);
-                    //images.push()
 
-                    hotel.image.data = fs.readFileSync(image.path);
-                });*/
+                var images = []
+
+                if (Array.isArray(req.files)) {
+                    console.log("Array: req.files");
+
+                    req.files.forEach(image => {
+                        console.log(image);
+                        images.push({ data: fs.readFileSync(image.path), contentType: String });
+                    });
+
+                } else {
+                    console.log("Not array: req.files");
+                }
+
+                if (Array.isArray(req.files.image)) {
+                    console.log("Array: req.files.image");
+
+                    req.files.image.forEach(image => {
+                        console.log(image);
+                        images.push({ data: fs.readFileSync(image.path), contentType: String });
+                    });
+
+                } else {
+                    console.log("Not array: req.files.image");
+                }
+
+                hotel.images = images;
             }
 
             hotel.save(function(error) {

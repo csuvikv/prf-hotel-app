@@ -175,7 +175,7 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
                 qname: req.body.qname,
                 fullname: req.body.fullname,
                 room_number: req.body.room_number,
-                availalble_rooms: req.body.availalble_rooms
+                availalble_rooms: req.body.available_rooms
             });
 
             console.log(req.files);

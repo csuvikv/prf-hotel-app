@@ -157,6 +157,9 @@ router.get('/hotel', function(req, res) {
 
 router.post('/new-hotel', multipartMiddleware, (req, res) => {  
 
+    console.log(req);
+    console.log(req.files);
+
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
@@ -171,21 +174,6 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
                 }
             });
 
-
-            
-
-            /*.forEach(element => {
-                console.log(element);
-            });*/
-
-            /*var image = fs.readFileSync(req.files.file);
-            var encImg = image.toString('base64');*/
-
-            /* var newItem = new Item();
-            newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
-            newItem.img.contentType = ‘image/png’;
-            newItem.save();*/
-
             var hotel = new hotelModel({
                 qname: req.body.qname,
                 fullname: req.body.fullname,
@@ -196,7 +184,7 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
             if (req.files) {
                 req.files.forEach(image => {
                     console.log(image);
-                    console.log(image.path)
+                    console.log(image.path);
                     hotel.image.data = fs.readFileSync(image.path);
                 });
             }

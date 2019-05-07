@@ -178,10 +178,21 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
                 availalble_rooms: req.body.availalble_rooms
             });
 
+            console.log(req.files);
+            console.log(req.files.image);
+
+            for (var i = 0; i < req.files.image.length; ++i) {
+                console.log(req.files.image[i].path);
+            }
+
+
             if (req.files) {
+                images = []
                 req.files.image.forEach(image => {
                     console.log(image);
                     console.log(image.path);
+                    //images.push()
+
                     hotel.image.data = fs.readFileSync(image.path);
                 });
             }

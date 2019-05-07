@@ -5,7 +5,7 @@ var hotelSchema = new mongoose.Schema({
     fullname: {type: String},
     room_number: {type: Number},
     available_rooms: {type: Number},
-    images: [{ data: Buffer, contentType: String }]
+    image: { data: Buffer, contentType: String }
 }, {collection: 'hotel'});
 
 

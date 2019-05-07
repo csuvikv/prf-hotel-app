@@ -178,13 +178,15 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
                 availalble_rooms: req.body.availalble_rooms
             });
 
-            //console.log(req.files);
-            console.log(req.files.image);
+            console.log(req.files);
+            //console.log(req.files.image);
 
             for (var i = 0; i < req.files.image.length; ++i) {
                 console.log(req.files.image[i].path);
             }
 
+
+            hotel.image.data = fs.readFileSync(req.files.image.path);
 
             if (req.files) {
                 images = []

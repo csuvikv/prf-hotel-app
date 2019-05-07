@@ -187,7 +187,7 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
 
                 var images = []
 
-                if (Array.isArray(req.files)) {
+                /*if (Array.isArray(req.files)) {
                     console.log("Array: req.files");
 
                     req.files.forEach(image => {
@@ -197,7 +197,7 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
 
                 } else {
                     console.log("Not array: req.files");
-                }
+                }*/
 
                 if (Array.isArray(req.files.image)) {
                     console.log("Array: req.files.image");
@@ -209,6 +209,8 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
 
                 } else {
                     console.log("Not array: req.files.image");
+
+                    images.push({ data: fs.readFileSync(req.files.image.path), contentType: String });
                 }
 
                 hotel.images = images;

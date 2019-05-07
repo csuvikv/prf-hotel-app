@@ -159,6 +159,8 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
 
     console.log(req);
     console.log(req.files);
+    console.log(req.body);
+    console.log(req.form);
 
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {

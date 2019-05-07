@@ -157,11 +157,6 @@ router.get('/hotel', function(req, res) {
 
 router.post('/new-hotel', multipartMiddleware, (req, res) => {  
 
-    console.log(req);
-    console.log(req.files);
-    console.log(req.body);
-    console.log(req.form);
-
     if (utils.isAdmin(req)) {
         if (!req.body.qname) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["qname"]});
@@ -184,7 +179,7 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
             });
 
             if (req.files) {
-                req.files.forEach(image => {
+                req.files.image.forEach(image => {
                     console.log(image);
                     console.log(image.path);
                     hotel.image.data = fs.readFileSync(image.path);

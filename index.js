@@ -17,7 +17,6 @@ const PORT = process.env.PORT || 5000
 const userModel = mongoose.model('user');
 
 const allowedOrigins = [
-    'https://prf-angular.herokuapp.com',
     'https://prf-angular.herokuapp.com/*'
 ];
 

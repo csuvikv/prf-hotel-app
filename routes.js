@@ -178,26 +178,9 @@ router.post('/new-hotel', multipartMiddleware, (req, res) => {
                 availalble_rooms: req.body.available_rooms
             });
 
-            console.log(req.files);
-            console.log("========================");
-            console.log(req.files.image);
-            console.log("========================");
-
             if (req.files) {
 
                 var images = []
-
-                /*if (Array.isArray(req.files)) {
-                    console.log("Array: req.files");
-
-                    req.files.forEach(image => {
-                        console.log(image);
-                        images.push({ data: fs.readFileSync(image.path), contentType: String });
-                    });
-
-                } else {
-                    console.log("Not array: req.files");
-                }*/
 
                 if (Array.isArray(req.files.image)) {
                     console.log("Array: req.files.image");

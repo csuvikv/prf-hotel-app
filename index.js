@@ -18,11 +18,8 @@ const userModel = mongoose.model('user');
 
 const allowedOrigins = [
     'https://prf-angular.herokuapp.com',
-    'https://prf-angular.herokuapp.com/*',
-    'http://localhost',
-    'http://localhost:8080',
-    'http://localhost:8100'
-  ];
+    'https://prf-angular.herokuapp.com/*'
+];
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -88,13 +85,6 @@ app.use(expressSession({secret: 'secret'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', cors(corsOptions), require('./routes'));
-
-
-/*app.use(multer({ dest: "./uploads/",
-    rename: function (fieldname, filename) {
-      return filename;
-    },
-}));*/
 
 app.listen(PORT, function() {
     console.log('the server is running');

@@ -85,7 +85,36 @@ router.get('/users', function(req, res) {
             if (err) {
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }
-            return res.status(200).send(users);
+
+            var formattedUsers = [];
+
+            users.forEach(user => {
+
+                reservationModel.find({}, function(err, reservations) {
+                    if (err) {
+                        return res.status(500).send({status: "error", reason: "database", detalis: error});
+                    }
+        
+                    var formatedReservations = [];
+        
+                    reservations.forEach(reservation => {
+                        if (reservation && reservation.user == user.username && reservation.valid) {
+                            formatedReservations.push(reservation);
+                        }
+                    });
+                });
+
+                formattedUsers.push({
+                    username: user.username,
+                    password: user.password,
+                    fullname: user.fullname,
+                    admin: user.admin,
+                    email: user.email,
+                    reservations: formatedReservations
+                });
+            });
+
+            return res.status(200).send(formattedUsers);
         });
     } else {
         return res.status(401).send({status: "warning", reason: "unauthorized"});

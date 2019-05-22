@@ -86,7 +86,7 @@ router.get('/users', function(req, res) {
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }
 
-            let formattedUsers = [];
+            var formattedUsers = [];
 
             users.forEach(user => {
 
@@ -95,7 +95,7 @@ router.get('/users', function(req, res) {
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
         
-                    let formatedReservations = [];
+                    var formatedReservations = [];
         
                     reservations.forEach(reservation => {
                         if (reservation && reservation.user == user.username && reservation.valid) {

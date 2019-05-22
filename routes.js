@@ -102,19 +102,20 @@ router.get('/users', function(req, res) {
                             formatedReservations.push(reservation);
                         }
                     });
-                });
 
-                console.log(formatedReservations);
+                    console.log(formatedReservations);
 
-                formattedUsers.push({
-                    username: user.username,
-                    password: user.password,
-                    fullname: user.fullname,
-                    admin: user.admin,
-                    email: user.email,
-                    reservations: formatedReservations
+                    formattedUsers.push({
+                        username: user.username,
+                        password: user.password,
+                        fullname: user.fullname,
+                        admin: user.admin,
+                        email: user.email,
+                        reservations: formatedReservations
+                    });
                 });
             });
+            
             console.log(formattedUsers);
             return res.status(200).send(formattedUsers);
         });

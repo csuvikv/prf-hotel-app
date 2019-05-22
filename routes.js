@@ -115,7 +115,7 @@ router.get('/users', function(req, res) {
                     reservations: formatedReservations
                 });
             });
-
+            console.log(formattedUsers);
             return res.status(200).send(formattedUsers);
         });
     } else {

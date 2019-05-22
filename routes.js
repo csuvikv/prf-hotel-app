@@ -82,13 +82,11 @@ router.post('/logout', function(req, res) {
 router.get('/users', function(req, res) {
     if (utils.isAdmin(req)) {
         userModel.find({}, function(err, users) {
+
             if (err) {
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }
-
             
-            
-
             reservationModel.find({}, function(err, reservations) {
                 if (err) {
                     return res.status(500).send({status: "error", reason: "database", detalis: error});
@@ -100,7 +98,7 @@ router.get('/users', function(req, res) {
                     var formatedReservations = [];
                     reservations.forEach(reservation => {
                         if (reservation && reservation.user == user.username && reservation.valid) {
-                            formatedReservations.push(reservation);
+                            formatedReservations.push({ user: reservation.user, hotel: reservation.hotel, room_number: reservation.room_number, valid: reservation.valid, created: reservation.created });
                         }
                     });
 

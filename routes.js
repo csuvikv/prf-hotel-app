@@ -86,7 +86,7 @@ router.get('/users', function(req, res) {
                 return res.status(500).send({status: "error", reason: "database", detalis: error});
             }
 
-            var formattedUsers = [];
+            let formattedUsers = [];
 
             users.forEach(user => {
 
@@ -95,7 +95,7 @@ router.get('/users', function(req, res) {
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
         
-                    var formatedReservations = [];
+                    let formatedReservations = [];
         
                     reservations.forEach(reservation => {
                         if (reservation && reservation.user == user.username && reservation.valid) {
@@ -103,6 +103,8 @@ router.get('/users', function(req, res) {
                         }
                     });
                 });
+
+                console.log(formatedReservations);
 
                 formattedUsers.push({
                     username: user.username,

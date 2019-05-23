@@ -321,11 +321,11 @@ router.put('/invalidate-reservation', function(req, res) {
                 }
                 console.log(reservation);
                 console.log("--------------------------------------------------");
-                reservationModel.updateOne({ reservation }, {$set: {valid: false }}, function(err, result) {
+                reservationModel.updateOne({ user: reservation.user, hotel: reservation.hotel, room_number: reservation.room_number }, {$set: {valid: false }}, function(err, result) {
                     if (err) { 
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
-                    console.log(reservation);
+                    console.log(result);
                     return res.status(200).send({status: "ok"});
                 });
             });

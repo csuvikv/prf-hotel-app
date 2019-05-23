@@ -313,14 +313,19 @@ router.put('/invalidate-reservation', function(req, res) {
         if (!req.body.hotel || !req.body.user || !req.body.room_number) {
             return res.status(400).send({status: "warning", reason: "missing_parameters", details: ["hotel", "user", "room_number"]});
         } else {
+            console.log(req.body.hotel, req.body.user, req.body.room_number);
+            console.log("--------------------------------------------------");
             reservationModel.findOne({user: req.body.user, hotel: req.body.hotel, room_number: req.body.room_number}, function(err, reservation) {
                 if (!reservation) {
                     return res.status(404).send({status: "warning", reason: "entity_not_found", details: "reservation"});
                 }
+                console.log(reservation);
+                console.log("--------------------------------------------------");
                 reservationModel.updateOne({ reservation }, {$set: {valid: false }}, function(err, result) {
                     if (err) { 
                         return res.status(500).send({status: "error", reason: "database", detalis: error});
                     }
+                    console.log(reservation);
                     return res.status(200).send({status: "ok"});
                 });
             });
